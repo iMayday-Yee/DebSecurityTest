@@ -56,7 +56,7 @@ python3 apptest.py -f test.dep -s ./test -c 1.json
 
 # Golang 部分
 
-直接在src/目录下运行即可：
+在项目根目录下运行：
 ```go
-go run main.go
+go run src/main.go
 ```
