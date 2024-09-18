@@ -1,4 +1,4 @@
-# Python 部分：
+# Python 部分
 
 ## Python脚本执行环境和依赖 
 
@@ -42,7 +42,7 @@ sudo apt install yara
 sudo apt install biz.ntinfo.die
 ```
 
-## Python脚本单独使用方法：
+## Python脚本单独使用方法
 
 安装应用后执行:
 ```shell
@@ -54,7 +54,7 @@ python3 apptest.py -f test.dep -s ./test -c 1.json
 # -p 指定进程pid
 ```
 
-# Golang 部分：
+# Golang 部分
 
 直接在src/目录下运行即可：
 ```go
