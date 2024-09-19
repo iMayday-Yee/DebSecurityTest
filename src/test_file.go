@@ -10,7 +10,7 @@ import (
 
 func appTestByFile(c *gin.Context) {
 	//切换到apptest目录
-	var result = testResult{0, "DON'T PASS"}
+	var result = testResult{0, "DON'T PASS", "0000"}
 	oldDir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("[ERROR]", err.Error())
@@ -65,6 +65,7 @@ func appTestByFile(c *gin.Context) {
 		})
 		return
 	}
+	result.Id = id
 	//判断是否通过
 	if result.Score >= 70 {
 		result.Info = "PASS"
