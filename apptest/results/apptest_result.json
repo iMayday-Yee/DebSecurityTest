@@ -1,0 +1,50 @@
+{
+    "20001": {
+        "name": "应用网络通信检测",
+        "result": "测试通过"
+    },
+    "20002": {
+        "name": "应用安全功能检测",
+        "result": "应用未使用seccomp;"
+    },
+    "20003": {
+        "name": "应用能力特权检测",
+        "result": "测试通过"
+    },
+    "20004": {
+        "name": "应用安全保护机制检测",
+        "result": "应用无安全保护机制：/opt/apps/com.github.fish-book/files/fish-book"
+    },
+    "20005": {
+        "name": "应用文件权限检测",
+        "result": "文件权限不为root:root /opt/apps/com.github.fish-book/files/chrome-sandbox"
+    },
+    "20006": {
+        "name": "应用权限检测",
+        "result": "测试通过"
+    },
+    "20007": {
+        "name": "应用木马病毒扫描",
+        "result": "测试通过"
+    },
+    "20008": {
+        "name": "应用静态代码扫描",
+        "result": "测试通过"
+    },
+    "20009": {
+        "name": "应用漏洞扫描",
+        "result": "测试通过"
+    },
+    "20010": {
+        "name": "应用安装脚本检测",
+        "result": "包内存在安装脚本,请检查是否存在漏洞：postinst;"
+    },
+    "20011": {
+        "name": "应用检测总分",
+        "result": 82
+    },
+    "20012": {
+        "name": "测试结论",
+        "result": "通过"
+    }
+}

@@ -1,0 +1,6 @@
+检测项,问题类型,扣除分数
+应用安全功能检测,应用未使用seccomp;,3
+应用安装脚本检测,"包内存在安装脚本,请检查是否存在漏洞：postinst;",5
+应用安全保护机制检测,应用无安全保护机制：/opt/apps/com.github.fish-book/files/fish-book,0
+应用文件权限检测,文件权限不为root:root /opt/apps/com.github.fish-book/files/chrome-sandbox,10
+总分,82,

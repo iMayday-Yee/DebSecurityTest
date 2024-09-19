@@ -52,3 +52,49 @@ defer os.Chdir(oldDir)
 
 但是不要忘记在函数结束时将工作目录改回来，否则会影响到其他函数的执行。
 这里为了避免遗忘，可以在更改工作目录之后使用`defer`关键字来延迟执行恢复工作目录的操作。
+
+更新：要注意下面问题4中多个请求同时到来的情况，因为这里使用的是`os.Chdir`函数并且参数使用的是相对路径，所以如果前一个请求更改了工作目录，
+但是还没运行结束所以还没有把工作目录改回来，这时候又有一个请求到来，那么这个请求的工作目录就是前一个请求的工作目录，
+即会尝试跳转到`./apptest/apptest/`，这样就会导致错误。可以在运行`os.Chdir`之前先获取当前工作目录，
+然后在更改工作目录之前判断当前工作目录是否是预期的工作目录。
+
+## 4. Gin同时处理多个POST请求
+
+因为本项目中`appTest`函数要执行很长时间，对于多个请求同时到来的情况，我本来是想使用goroutine来处理的。
+即在`appTestByFile`和`appTestByUrl`函数调用`appTest`函数时，使用如下命令进行处理：
+
+```go
+// 使用goroutine来执行appTest
+go func() {
+    result, err := appTest(id, fileDst)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "status":  "ERROR",
+            "message": err.Error(),
+        })
+        return
+    }
+    // 判断是否通过
+    if result.Score >= 70 {
+        result.Info = "PASS"
+    } else {
+        result.Info = "DON'T PASS"
+    }
+    // 返回结果
+    c.JSON(http.StatusOK, result)
+}()
+```
+
+但是在测试的时候发现，这样容易让工作目录混乱，好像在进入goroutine之后就立刻执行了切换回原工作目录的操作。
+
+同时，还会出现`Headers were already written`的错误，
+问题可能是因为`gin.Context`在goroutine中使用时可能存在一些竞争条件或者生命周期管理上的问题。
+
+1. `gin.Context`不适合在goroutine中长期持有和使用：Gin的文档中建议，`gin.Context`的使用应该局限在当前请求的生命周期内， 
+并且不应该在异步goroutine中使用，除非你能确保上下文的安全使用。
+
+2. 二次响应可能是由于请求的生命周期已经结束：如果请求的生命周期已经结束（可能由于超时等其他因素）， 
+再调用`c.JSON`就会导致`Headers were already written`的错误。
+
+而且最后发现Gin框架本身已经支持多请求的并发处理。Go的HTTP服务器（包括 Gin）在后台使用了`net/http`包，
+该包本身就是并发处理的，每个请求都会在一个独立的goroutine中处理。
