@@ -57,6 +57,6 @@ python3 apptest.py -f test.dep -s ./test -c 1.json
 # Golang 部分
 
 在项目根目录下运行：
-```go
+```shell
 go run src/main.go
 ```
