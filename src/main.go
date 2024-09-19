@@ -20,6 +20,7 @@ func appTest(id string, fileDst string) (int, error) {
 	cmd := exec.Command("python3", "./app_test.py", "-f", fileDst)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
+		fmt.Println("[ERROR]", string(output))
 		return 0, err
 	}
 	//移动文件
@@ -53,14 +54,16 @@ func appTestByFile(c *gin.Context) {
 		})
 		return
 	}
-	err = os.Chdir("./apptest")
-	if err != nil {
-		fmt.Println("[ERROR]", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "ERROR",
-			"message": err.Error(),
-		})
-		return
+	if strings.Contains(oldDir, "apptest") == false {
+		err = os.Chdir("./apptest")
+		if err != nil {
+			fmt.Println("[ERROR]", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  "ERROR",
+				"message": err.Error(),
+			})
+			return
+		}
 	}
 	//切换完成后再切换回来
 	defer os.Chdir(oldDir)
@@ -115,14 +118,16 @@ func appTestByUrl(c *gin.Context) {
 		})
 		return
 	}
-	err = os.Chdir("./apptest")
-	if err != nil {
-		fmt.Println("[ERROR]", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "ERROR",
-			"message": err.Error(),
-		})
-		return
+	if strings.Contains(oldDir, "apptest") == false {
+		err = os.Chdir("./apptest")
+		if err != nil {
+			fmt.Println("[ERROR]", err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"status":  "ERROR",
+				"message": err.Error(),
+			})
+			return
+		}
 	}
 	//切换完成后再切换回来
 	defer os.Chdir(oldDir)
