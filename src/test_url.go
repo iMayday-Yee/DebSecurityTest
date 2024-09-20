@@ -10,7 +10,7 @@ import (
 )
 
 func appTestByUrl(c *gin.Context) {
-	var result = testResult{0, "DON'T PASS", "0000"}
+	var result = testResult{Status: "ERROR", Data: data{Score: 0, Info: "DON'T PASS", Id: "0000"}}
 	oldDir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("[ERROR]", err.Error())
@@ -59,7 +59,7 @@ func appTestByUrl(c *gin.Context) {
 		return
 	}
 	//执行测试
-	result.Score, err = appTest(id, id+".deb")
+	result.Data.Score, err = appTest(id, id+".deb")
 	if err != nil {
 		fmt.Println("ERROR", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -68,11 +68,12 @@ func appTestByUrl(c *gin.Context) {
 		})
 		return
 	}
-	result.Id = id
+	result.Data.Id = id
 	//判断是否通过
-	if result.Score >= 70 {
-		result.Info = "PASS"
+	if result.Data.Score >= 70 {
+		result.Data.Info = "PASS"
 	}
+	result.Status = "OK"
 	//返回结果
 	c.JSON(http.StatusOK, result)
 }

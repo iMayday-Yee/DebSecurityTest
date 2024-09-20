@@ -27,5 +27,5 @@ func main() {
 	r.GET("/appTestResult", appTestResult)
 	r.GET("/cleanCache", cleanCache)
 	r.GET("/diskUsage", diskUsage)
-	_ = r.Run()
+	_ = r.Run(":12345")
 }
