@@ -26,5 +26,6 @@ func main() {
 	r.POST("/appTestByFile", appTestByFile)
 	r.GET("/appTestResult", appTestResult)
 	r.GET("/cleanCache", cleanCache)
+	r.GET("/diskUsage", diskUsage)
 	_ = r.Run()
 }
