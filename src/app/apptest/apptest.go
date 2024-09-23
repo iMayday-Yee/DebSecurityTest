@@ -1,4 +1,4 @@
-package main
+package apptest
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func appTest(id string, fileDst string) (int, error) {
+func AppTest(id string, fileDst string) (int, error) {
 	//执行测试
 	cmd := exec.Command("python3", "./app_test.py", "-f", fileDst)
 	cmd.Dir = "./apptest"

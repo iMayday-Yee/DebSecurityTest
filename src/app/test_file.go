@@ -1,14 +1,16 @@
-package main
+package app
 
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"myFirstGoProject/src/app/apptest"
+	"myFirstGoProject/src/structs"
 	"net/http"
 )
 
-func appTestByFile(c *gin.Context) {
+func TestByFile(c *gin.Context) {
 	//切换到apptest目录
-	var result = testResult{Status: "ERROR", Data: data{Score: 0, Info: "DON'T PASS", Id: "0000"}}
+	var result = structs.ResultReturned{Status: "ERROR", Data: structs.Data{Score: 0, Info: "DON'T PASS", Id: "0000"}}
 	//获取id和deb文件
 	id := c.PostForm("id")
 	file, err := c.FormFile("debFile")
@@ -32,7 +34,7 @@ func appTestByFile(c *gin.Context) {
 		return
 	}
 	//执行测试
-	result.Data.Score, err = appTest(id, id+".deb")
+	result.Data.Score, err = apptest.AppTest(id, id+".deb")
 	if err != nil {
 		fmt.Println("[ERROR]", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{

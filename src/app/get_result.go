@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func appTestResult(c *gin.Context) {
+func TestResult(c *gin.Context) {
 	id := c.Query("id")
 	//判断文件是否存在
 	_, err := os.Stat("./apptest/results/" + id + ".csv")

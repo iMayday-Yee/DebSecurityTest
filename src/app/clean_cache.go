@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func cleanCache(c *gin.Context) {
+func CleanCache(c *gin.Context) {
 	cmd := exec.Command("sh", "-c", "rm -rf ./apptest/results/*")
 	_, err := cmd.CombinedOutput()
 	if err != nil {
@@ -25,7 +25,7 @@ func cleanCache(c *gin.Context) {
 	})
 }
 
-func diskUsage(c *gin.Context) {
+func DiskUsage(c *gin.Context) {
 	cmd := exec.Command("du", "-hd", "0", "./apptest/results")
 	output, err := cmd.CombinedOutput()
 	if err != nil {

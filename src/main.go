@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"myFirstGoProject/src/app"
 	"net/http"
 )
 
@@ -22,10 +23,11 @@ func CORSMiddleware() gin.HandlerFunc {
 func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
-	r.POST("/appTestByUrl", appTestByUrl)
-	r.POST("/appTestByFile", appTestByFile)
-	r.GET("/appTestResult", appTestResult)
-	r.GET("/cleanCache", cleanCache)
-	r.GET("/diskUsage", diskUsage)
+	r.POST("/appTestByUrl", app.TestByUrl)
+	r.POST("/appTestByFile", app.TestByFile)
+	r.GET("/appTestResult", app.TestResult)
+	r.GET("/cleanCache", app.CleanCache)
+	r.GET("/diskUsage", app.DiskUsage)
+	r.GET("/showTasks", app.ShowTasks)
 	_ = r.Run(":12345")
 }
