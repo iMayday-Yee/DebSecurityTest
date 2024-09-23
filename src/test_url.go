@@ -11,34 +11,13 @@ import (
 
 func appTestByUrl(c *gin.Context) {
 	var result = testResult{Status: "ERROR", Data: data{Score: 0, Info: "DON'T PASS", Id: "0000"}}
-	oldDir, err := os.Getwd()
-	if err != nil {
-		fmt.Println("[ERROR]", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":  "ERROR",
-			"message": err.Error(),
-		})
-		return
-	}
-	if strings.Contains(oldDir, "apptest") == false {
-		err = os.Chdir("./apptest")
-		if err != nil {
-			fmt.Println("[ERROR]", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":  "ERROR",
-				"message": err.Error(),
-			})
-			return
-		}
-	}
-	//切换完成后再切换回来
-	defer os.Chdir(oldDir)
 	//获取id和deb文件
 	debUrl := c.PostForm("debUrl")
 	id := c.PostForm("id")
 	//下载deb文件
 	cmd := exec.Command("wget", debUrl)
-	_, err = cmd.CombinedOutput()
+	cmd.Dir = "./apptest"
+	_, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("ERROR", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -49,7 +28,7 @@ func appTestByUrl(c *gin.Context) {
 	}
 	//修改文件名为id.deb
 	debName := debUrl[strings.LastIndex(debUrl, "/")+1:]
-	err = os.Rename(debName, id+".deb")
+	err = os.Rename("apptest/"+debName, "apptest/"+id+".deb")
 	if err != nil {
 		fmt.Println("ERROR", err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
