@@ -13,6 +13,10 @@ import (
 	"strings"
 )
 
+// 1. 获得id和deb文件Url，下载deb文件并重命名
+// 2. 连接数据库，检查id是否存在，如果连接失败或者id已存在则返回错误响应，否则创建并发任务，并直接返回任务提交成功响应
+// 3. 并发任务中新建一个task结构体，存储当前任务的信息，借助task进行数据库新增和更新记录的操作
+
 func TestByUrl(c *gin.Context) {
 	//获取id和deb文件
 	debUrl := c.PostForm("debUrl")
@@ -38,7 +42,8 @@ func TestByUrl(c *gin.Context) {
 		})
 		return
 	}
-	//创建任务
+
+	//创建并发任务
 	go func(debUrl string, id string) {
 		db.AutoMigrate(&structs.Task{})
 		task := structs.Task{ID: id, Status: "RUNNING"}
