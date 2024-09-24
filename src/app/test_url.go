@@ -46,7 +46,7 @@ func TestByUrl(c *gin.Context) {
 	//创建并发任务
 	go func(debUrl string, id string) {
 		db.AutoMigrate(&structs.Task{})
-		task := structs.Task{ID: id, Status: "RUNNING"}
+		task := structs.Task{ID: id, Status: "Running"}
 		db.Create(&task)
 		defer db.Close()
 		//下载deb文件
@@ -55,7 +55,7 @@ func TestByUrl(c *gin.Context) {
 		_, err = cmd.CombinedOutput()
 		if err != nil {
 			fmt.Println("ERROR", err.Error())
-			db.Model(&task).Update("Status", "ERROR")
+			db.Model(&task).Update("Status", "Error")
 			db.Model(&task).Update("Error", err.Error())
 			return
 		}
@@ -64,7 +64,7 @@ func TestByUrl(c *gin.Context) {
 		err = os.Rename("apptest/"+debName, "apptest/"+id+".deb")
 		if err != nil {
 			fmt.Println("ERROR", err.Error())
-			db.Model(&task).Update("Status", "ERROR")
+			db.Model(&task).Update("Status", "Error")
 			db.Model(&task).Update("Error", err.Error())
 			return
 		}
@@ -72,7 +72,7 @@ func TestByUrl(c *gin.Context) {
 		score, err := apptest.AppTest(id, id+".deb")
 		if err != nil {
 			fmt.Println("ERROR", err.Error())
-			db.Model(&task).Update("Status", "ERROR")
+			db.Model(&task).Update("Status", "Error")
 			db.Model(&task).Update("Error", err.Error())
 			return
 		}
@@ -81,7 +81,7 @@ func TestByUrl(c *gin.Context) {
 		if score >= 70 {
 			info = "PASS"
 		}
-		db.Model(&task).Update("Status", "FINISHED")
+		db.Model(&task).Update("Status", "Finished")
 		db.Model(&task).Update("Score", score)
 		db.Model(&task).Update("Info", info)
 		db.Model(&task).Update("ResultFile", id+".csv")
