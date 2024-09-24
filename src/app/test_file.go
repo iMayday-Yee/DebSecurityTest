@@ -68,10 +68,10 @@ func TestByFile(c *gin.Context) {
 			db.Model(&task).Update("Error", err.Error())
 			return
 		}
-		info := "DON'T PASS"
+		info := "NO"
 		//判断是否通过
 		if score >= 70 {
-			info = "PASS"
+			info = "YES"
 		}
 		db.Model(&task).Update("Status", "Finished")
 		db.Model(&task).Update("Score", score)
