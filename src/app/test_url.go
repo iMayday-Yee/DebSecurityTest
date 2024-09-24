@@ -84,7 +84,7 @@ func TestByUrl(c *gin.Context) {
 		db.Model(&task).Update("Status", "FINISHED")
 		db.Model(&task).Update("Score", score)
 		db.Model(&task).Update("Info", info)
-		db.Model(&task).Update("ResultFile", id+".deb")
+		db.Model(&task).Update("ResultFile", id+".csv")
 	}(debUrl, id)
 
 	c.JSON(http.StatusOK, gin.H{
