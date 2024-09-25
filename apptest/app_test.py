@@ -39,7 +39,7 @@ https://github.com/Neo23x0/signature-base/tree/master/yara
 -p 指定进程pid
 '''
 
-passwd = 'Yyy12345'
+passwd = 'passwd'
 rules_path= 'rules'
 blacklist=[
                 '/usr/share/ca-certificates/deepin/',
