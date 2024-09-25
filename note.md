@@ -114,4 +114,8 @@ go func() {
 
 **本项目使用的是Gorm作为ORM框架。**
 
+## clean_cache.go中diskUsage第一次使用会报错
+
+因为最开始没有生成result目录，所以会找不到该目录
+
 

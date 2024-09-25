@@ -12,12 +12,12 @@ import (
 
 func CleanCache(c *gin.Context) {
 	cmd := exec.Command("sh", "-c", "rm -rf ./apptest/results/*")
-	_, err := cmd.CombinedOutput()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println("[ERROR]", err.Error())
+		fmt.Println("[ERROR]", string(output))
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "ERROR",
-			"message": err.Error(),
+			"message": string(output),
 		})
 		return
 	}
@@ -43,10 +43,10 @@ func DiskUsage(c *gin.Context) {
 	cmd := exec.Command("du", "-hd", "0", "./apptest/results")
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Println("[ERROR]", err.Error())
+		fmt.Println("[ERROR]", string(output))
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "ERROR",
-			"message": err.Error(),
+			"message": string(output),
 		})
 		return
 	}
