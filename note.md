@@ -114,7 +114,10 @@ go func() {
 
 **本项目使用的是Gorm作为ORM框架。**
 
-## clean_cache.go中diskUsage第一次使用会报错
+1. 在添加任务的时候会判断id在数据库中是否已存在，但是id是string类型，如果用db.First(&Task,id)去查询，实际上是SQL是`WHERE ID LIKE ${id}`，
+而不是 `is`/`=`.，所以改成WHERE精确查询。
+
+## 6.clean_cache.go中diskUsage第一次使用会报错
 
 因为最开始没有生成result目录，所以会找不到该目录
 
