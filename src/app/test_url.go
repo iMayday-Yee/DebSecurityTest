@@ -33,7 +33,7 @@ func TestByUrl(c *gin.Context) {
 	}
 	db.AutoMigrate(&structs.Task{})
 	taskToCheckId := structs.Task{}
-	resultCheckId := db.First(&taskToCheckId, id)
+	resultCheckId := db.Where("id = ?", id).First(&taskToCheckId)
 	if resultCheckId.RowsAffected != 0 {
 		fmt.Println("[ERROR] ID already exists")
 		c.JSON(http.StatusInternalServerError, gin.H{
