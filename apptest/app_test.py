@@ -297,7 +297,18 @@ class App:
             if i in file:
                 less=5
                 self.score = self.score - less
-                des += "包内存在安装脚本,请检查是否存在漏洞：" + i + ";" 
+                des += "包内存在安装脚本" + i + ":\n"
+                # 查看脚本是否存在chmod，记录第几行出现chmod存在des中
+                with open('DEBIAN/' + i, 'r') as f:
+                    linenum = 0
+                    lines = f.readlines()
+                    for line in lines:
+                        linenum += 1
+                        if 'chmod' in line:
+                            less=100
+                            self.score = self.score - less
+                            des += "该脚本中第" + str(linenum) + "行存在chmod:" + line
+                            break
                 print('[*]' + des)
         if des:
              self.resdic[test_item_dict[test_item]] = obj_build(test_item, des)
@@ -497,13 +508,17 @@ class App:
                                 if self.service:
                                     less=100
                                     self.score=self.score-less
-                                    des += "文件权限不为root:root " + path
+                                    des += "文件权限不为root:root " + '\n'
+                                    # 运行file命令查看文件类型，存在des中
+                                    des += os.popen("file " + self.file + path).read()
                                     print('[*]' + des)
                                     root=True
                                 else:
                                     less=10
                                     self.score=self.score-less
-                                    des += "文件权限不为root:root " + path
+                                    des += "文件权限不为root:root " + '\n'
+                                    # 运行file命令查看文件类型，存在des中
+                                    des += os.popen("file " + self.file + path).read()
                                     print('[*]' + des)
                                     root=True
 
@@ -534,13 +549,17 @@ class App:
                                 if self.service:
                                     less=100
                                     self.score=self.score-less
-                                    des += "文件权限不为root:root " + path
+                                    des += "文件权限不为root:root " + '\n'
+                                    # 运行file命令查看文件类型，存在des中
+                                    des += os.popen("file " + self.file + path).read()
                                     print('[*]' + des)
                                     root=True
                                 else:
                                     less=10
                                     self.score=self.score-less
-                                    des += "文件权限不为root:root " + path
+                                    des += "文件权限不为root:root " + '\n'
+                                    # 运行file命令查看文件类型，存在des中
+                                    des += os.popen("file " + self.file + path).read()
                                     print('[*]' + des)
                                     root=True
 
