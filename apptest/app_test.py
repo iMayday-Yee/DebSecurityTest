@@ -510,7 +510,7 @@ class App:
                                     self.score=self.score-less
                                     des += "文件权限不为root:root " + '\n'
                                     # 运行file命令查看文件类型，存在des中
-                                    des += os.popen("file " + self.file + path).read()
+                                    des += os.popen("file \"" + self.file + path + "\"").read()
                                     print('[*]' + des)
                                     root=True
                                 else:
@@ -518,7 +518,7 @@ class App:
                                     self.score=self.score-less
                                     des += "文件权限不为root:root " + '\n'
                                     # 运行file命令查看文件类型，存在des中
-                                    des += os.popen("file " + self.file + path).read()
+                                    des += os.popen("file \"" + self.file + path + "\"").read()
                                     print('[*]' + des)
                                     root=True
 
@@ -546,12 +546,13 @@ class App:
                                     write=True
                         elif not root:
                             if not path.endswith('desktop'):
+                                path = '/' + path.split(' ./')[-1]
                                 if self.service:
                                     less=100
                                     self.score=self.score-less
                                     des += "文件权限不为root:root " + '\n'
                                     # 运行file命令查看文件类型，存在des中
-                                    des += os.popen("file " + self.file + path).read()
+                                    des += os.popen("file \"" + self.file + path + "\"").read()
                                     print('[*]' + des)
                                     root=True
                                 else:
@@ -559,7 +560,7 @@ class App:
                                     self.score=self.score-less
                                     des += "文件权限不为root:root " + '\n'
                                     # 运行file命令查看文件类型，存在des中
-                                    des += os.popen("file " + self.file + path).read()
+                                    des += os.popen("file \"" + self.file + path + "\"").read()
                                     print('[*]' + des)
                                     root=True
 
